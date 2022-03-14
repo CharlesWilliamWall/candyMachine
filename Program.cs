@@ -1,31 +1,25 @@
-﻿using System.Security.Cryptography;
-
-namespace Projet01
+﻿namespace Projet01
 {
     public class Program
     {
         private static Candy[] candies;//variable globale
+        private static Candy bonbon;
         public static void Main()
         {
             //chargement des données
             Data dataManager = new Data();
             candies = dataManager.LoadCandies();
-            decimal Sommerecu = 0m;
-            Board.Print();
-            Console.Write("->");
             while (true)
             {
                 int selection = GetSelection();
                 Candy bonbon = GetCandy(selection);
+                // decimal sommerecu = GetCoin();
+                // do
+                // {
+                //     GetCoin();
+                // } while (sommerecu < bonbon.Price);
                 Board.Print(bonbon.Name, selection , bonbon.Price);
                 Console.Write("->");
-                do
-                {
-                    Board.Print(received: Sommerecu);
-                    GetCoin();
-                    Sommerecu = Sommerecu + GetCoin();
-                } while (selection > 0);
-
                 if (bonbon.Stock == 0)
                 {
                     Board.Print(bonbon.Name + " VIDE!");
@@ -34,49 +28,65 @@ namespace Projet01
         }
         public static int GetSelection()
         {
+            Board.Print();
+            Console.Write("->");
             int selection;
-            do
+            selection = int.Parse(Console.ReadLine());
+            if (selection > 25)
             {
-                selection = int.Parse(Console.ReadLine());
-            } while (selection < 0 || selection > 26);
+                // Console.WriteLine("mauvais choix");
+                GetSelection();
+            }
+            if (selection < 0)
+            {
+                return selection;
+            }
             return selection;
         }
         public static Candy GetCandy(int selection)
         {
             return candies[selection -1];
         }
-
         public static decimal GetCoin()
         {
             bool IsCompleted;
             bool IsCanceled;
-            // choix 0 = annule;
-            decimal[] choix = new decimal[6];
-            // int prix = choix;
-            decimal coin = 0;
-            choix[0] = coin;
-            for (int i = 0; i < 6; i++)
-            {
-                Console.WriteLine("[0] = Annuler");
-                Console.WriteLine("[1] = 5c");
-                Console.WriteLine("[2] = 10c");
-                Console.WriteLine("[3] = 25c");
-                Console.WriteLine("[4] = 1$");
-                Console.WriteLine("[5] = 2$");
-                choix[1] = 0.05m;
-                choix[2] = 0.10m;
-                choix[3] = 0.25m;
-                choix[4] = 1.00m;
-                choix[5] = 2.00m;
-                choix[i] = decimal.Parse(Console.ReadLine());
-            }
-            return coin;
+            decimal coin;
+            decimal sommerecu = 0;
+            Console.WriteLine("[0] = Annuler");
+            Console.WriteLine("[1] = 5c");
+            Console.WriteLine("[2] = 10c");
+            Console.WriteLine("[3] = 25c");
+            Console.WriteLine("[4] = 1$");
+            Console.WriteLine("[5] = 2$");
+            coin = decimal.Parse(Console.ReadLine());
+            switch (coin)
+                {
+                    case 0:
+                        GetSelection(); break;
+                }
+                switch (coin)
+                {
+                    case 1: return 0.05m;
+                }
+                switch (coin)
+                {
+                    case 2: return 0.10m;
+                }
+                switch (coin)
+                {
+                    case 3: return 0.25m;
+                }
+                switch (coin)
+                {
+                    case 4: return 1.00m;
+                }
+                switch (coin)
+                {
+                    case 5: return 2.00m;
+                }
+                sommerecu = coin + sommerecu;
+            return sommerecu;
         }
-
-
-
-
-
-
     }
 }
