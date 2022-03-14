@@ -21,19 +21,17 @@
                 {
                     Board.Print(bonbon.Name + " VIDE!");
                 }
-                do
-                {
-                    somme = somme + GetCoin();
-                    Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "xD");
-                } while (somme < bonbon.Price);
-
                 if ((bonbon.Price < somme))
                 {
                     change = somme - bonbon.Price;
                     Board.Print("prener votre bonbon", selection, price: bonbon.Price, received: somme, result: bonbon.Name, returned: change);
                 }
+                do
+                {
+                    somme = somme + GetCoin();
+                    Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "xD");
+                } while (somme < bonbon.Price);
             }
-            
         }
         public static int GetSelection()
         {
