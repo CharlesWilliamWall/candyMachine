@@ -12,9 +12,10 @@
             int selection = GetSelection();
             Candy bonbon = GetCandy(selection);
             decimal somme = 0;
+            decimal change = 0;
             while (true)
             {
-                Board.Print(bonbon.Name, price: bonbon.Price, received: somme, result: "xD");
+                Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "xD");
                 Console.Write("->");
                 if (bonbon.Stock == 0)
                 {
@@ -23,8 +24,16 @@
                 do
                 {
                     somme = somme + GetCoin();
+                    Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "xD");
                 } while (somme < bonbon.Price);
+
+                if ((bonbon.Price < somme))
+                {
+                    change = somme - bonbon.Price;
+                    Board.Print("prener votre bonbon", selection, price: bonbon.Price, received: somme, result: bonbon.Name, returned: change);
+                }
             }
+            
         }
         public static int GetSelection()
         {
