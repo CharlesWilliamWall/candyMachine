@@ -16,21 +16,28 @@
             while (true)
             {
                 Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "xD");
-                Console.Write("->");
                 if (bonbon.Stock == 0)
                 {
                     Board.Print(bonbon.Name + " VIDE!");
                 }
-                if ((bonbon.Price < somme))
+                if ((somme < bonbon.Price))
+                {
+                    somme = somme + GetCoin();
+                    Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "");
+                }
+                if (bonbon.Price > somme);
                 {
                     change = somme - bonbon.Price;
                     Board.Print("prener votre bonbon", selection, price: bonbon.Price, received: somme, result: bonbon.Name, returned: change);
                 }
-                do
+                if (bonbon.Price == somme)
                 {
-                    somme = somme + GetCoin();
-                    Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "xD");
-                } while (somme < bonbon.Price);
+                    Board.Print("prener votre bonbon", selection, price: bonbon.Price, received: somme, result: bonbon.Name);
+                }
+                if (somme == 0)
+                {
+                    Main();
+                }
             }
         }
         public static int GetSelection()
@@ -78,6 +85,7 @@
                     case 5: return 2.00m;
                     default: return 0.00m;
                 }
+                
             }
         }
     }
