@@ -6,45 +6,40 @@
         private static Candy bonbon;
         public static void Main()
         {
+            Board.Print();
+            Console.Write("->");
             //chargement des données
             Data dataManager = new Data();
             candies = dataManager.LoadCandies();
             int selection = GetSelection();
             Candy bonbon = GetCandy(selection);
             decimal somme = 0;
-            decimal change = 0;
-            while (true)
+            decimal change;
+            // while (true)
+            Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "", returned: 0.00m);
+            if (bonbon.Stock == 0)
             {
-                Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "xD");
-                if (bonbon.Stock == 0)
-                {
                     Board.Print(bonbon.Name + " VIDE!");
-                }
-                if ((somme < bonbon.Price))
-                {
-                    somme = somme + GetCoin();
-                    Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "");
-                }
-                if (bonbon.Price > somme);
-                {
+            }
+            do
+            {
+                somme = somme + GetCoin();
+                Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "",returned:0.00m);
+            } while (somme < bonbon.Price);
+            if (bonbon.Price <= somme);
+            {
                     change = somme - bonbon.Price;
                     Board.Print("prener votre bonbon", selection, price: bonbon.Price, received: somme, result: bonbon.Name, returned: change);
-                }
-                if (bonbon.Price == somme)
-                {
-                    Board.Print("prener votre bonbon", selection, price: bonbon.Price, received: somme, result: bonbon.Name);
-                }
-                if (somme == 0)
-                {
-                    Main();
-                }
             }
+            Console.WriteLine("\nAppuyez sur une touche pour acheter d'autre bonbon...");
+            Console.ReadKey();
+            Main();
         }
         public static int GetSelection()
         {
             int selection;
-            Board.Print();
-            Console.Write("->");
+            // Board.Print();
+            // Console.Write("->");
             selection = int.Parse(Console.ReadLine());
             if (selection > 25)
             {
