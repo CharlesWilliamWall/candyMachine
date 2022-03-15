@@ -19,18 +19,32 @@
             Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "", returned: 0.00m);
             if (bonbon.Stock == 0)
             {
-                    Board.Print(bonbon.Name + " VIDE!");
+                Board.Print(bonbon.Name + " VIDE!");
+                Console.WriteLine("stock vide ;<( appuyer sur une touche pour faire un autre choix");
+                Console.ReadKey();
+                Main();
+            }
+            // if (user enter zero)
+            { 
+                change = somme - bonbon.Price;
+                Board.Print("Annuler", selection, price: bonbon.Price, received: somme, result: "", returned: change);
+                Console.WriteLine("au revoir: appuyer une touche pour commencer...");
+                Console.ReadKey();
+                Main();
             }
             do
             {
                 somme = somme + GetCoin();
-                Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "",returned:0.00m);
+                Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "", returned: 0.00m);
             } while (somme < bonbon.Price);
-            if (bonbon.Price <= somme);
+
+            if (bonbon.Price <= somme) ;
             {
-                    change = somme - bonbon.Price;
-                    Board.Print("prener votre bonbon", selection, price: bonbon.Price, received: somme, result: bonbon.Name, returned: change);
+                change = somme - bonbon.Price;
+                Board.Print("prener votre bonbon", selection, price: bonbon.Price, received: somme, result: bonbon.Name,
+                    returned: change);
             }
+            bonbon.Stock = -1;// need to verify it
             Console.WriteLine("\nAppuyez sur une touche pour acheter d'autre bonbon...");
             Console.ReadKey();
             Main();
@@ -41,9 +55,10 @@
             // Board.Print();
             // Console.Write("->");
             selection = int.Parse(Console.ReadLine());
-            if (selection > 25)
+            if (selection > 25 || selection == 0 || selection == 'a')
             {
-                // Console.WriteLine("mauvais choix");
+                Console.WriteLine("mauvais choix");
+                Console.Write("->");
                 GetSelection();
             }
             if (selection < 0)
@@ -58,10 +73,7 @@
         }
         public static decimal GetCoin()
         {
-            bool IsCompleted;
-            bool IsCanceled;
             decimal coin;
-            decimal sommerecu = 0.00m;
             Console.WriteLine("[0] = Annuler");
             Console.WriteLine("[1] = 5c");
             Console.WriteLine("[2] = 10c");
@@ -80,7 +92,6 @@
                     case 5: return 2.00m;
                     default: return 0.00m;
                 }
-                
             }
         }
     }
