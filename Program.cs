@@ -4,14 +4,13 @@
     {
         private static Candy[] candies; //variable globale
         private static Candy bonbon;
-
         public static void Main()
         {
             //chargement des données
             Data dataManager = new Data();
             candies = dataManager.LoadCandies();
-            bool annuler = false;
-            bool iscompleted = false;
+            bool annuler;
+            bool iscompleted;
             decimal somme = 0;
             decimal change;
             while (true)
@@ -22,70 +21,64 @@
                     Candy bonbon = GetCandy(selection);
                     do
                     {
+                        annuler = false;
+                        iscompleted = false;
                         if (bonbon.Stock > 0)
                         {
-                            Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "",
-                                returned: 0.00m);
                             decimal coin;
+                            Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "", returned: 0.00m);
                             coin = GetCoin();
                             if (coin != 0.00m)
                             {
                                 if (somme < bonbon.Price)
                                 {
+                                    iscompleted = false;
                                     somme = somme + coin;
-                                    Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "",
-                                        returned: 0.00m);
-                                    Console.WriteLine(bonbon.Price);
+                                    Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "", returned: 0.00m);
                                 }
-
-                                if (somme > bonbon.Price)
+                                if (somme >= bonbon.Price)
                                 {
                                     iscompleted = true;
-                                    bonbon.Stock--;
-                                    candies[selection - 1].Stock--;
                                     change = Math.Abs(bonbon.Price - somme);
-                                    Board.Print("prener votre bonbon", selection, price: bonbon.Price, received: somme,
-                                        result: bonbon.Name, returned: change);
+                                    Board.Print("prener votre bonbon", selection, price: bonbon.Price, received: somme, result: bonbon.Name, returned: change);
+                                    candies[selection - 1].Stock--;
                                 }
                             }
-
                             if (coin == 0.00m)
                             {
                                 annuler = true;
-                                Board.Print("Annuler", selection, price: bonbon.Price, received: somme, result: "", returned: coin);
+                                Board.Print("Annuler", selection, price: bonbon.Price, received: somme, result: "", returned: somme);
                             }
                         }
-
                         if (bonbon.Stock == 0)
                         {
-                            {
-                                Board.Print(bonbon.Name + " VIDE!", selection);
-                            }
+                            annuler = true;
+                            Board.Print(bonbon.Name + " VIDE!", selection, returned:somme);
                         }
-                    } while (iscompleted == false && annuler == false);
+                    } while (annuler == false && iscompleted == false);
+                    somme = 0.00m;
                 }
                 Console.WriteLine("\nAppuyez sur une touche pour acheter d'autre bonbon...");
                 Console.ReadKey();
             }
         }
-
         public static int GetSelection()
         {
             int selection;
+            string mauvaischoix = "";
+            
             do
             {
                 Console.Write("->");
-                selection = int.Parse(Console.ReadLine());
+                int.TryParse(mauvaischoix, out selection);
+                // selection = int.Parse(Console.ReadLine());
             } while (selection > 25 || selection < 0);
-
             return selection;
         }
-
         public static Candy GetCandy(int selection)
         {
             return candies[selection - 1];
         }
-
         public static decimal GetCoin()
         {
             decimal coin;
