@@ -4,26 +4,27 @@
     {
         private static Candy[] candies; //variable globale
         private static Candy bonbon;
-        public static void Main()
+        public static void Main() // main xD
         {
-            //chargement des données
-            Data dataManager = new Data();
+            Data dataManager = new Data(); //chargement des données
             candies = dataManager.LoadCandies();
-            bool annuler;
-            bool iscompleted;
-            decimal somme = 0;
-            decimal change;
+            bool annuler; bool iscompleted; decimal somme = 0; decimal change; // variable bool et decimal
             while (true)
             {
-                Board.Print();
+                Board.Print();//plus tard dans le board print on va inserer les 2 objets de Candy prix et nom ainsi que des variable comme la selection la somme et le change
                 int selection = GetSelection();//Appel de selectiom
                 {
                     Candy bonbon = GetCandy(selection);//selection vas choisir le bon candy et lappel
-                    do
+                    do//babyshark
                     {
                         annuler = false;//on les remet a false en recommencant la boucle
                         iscompleted = false;
-                        if (bonbon.Stock > 0)// si ya le stock on rentre 
+                        if (bonbon.Stock == 0)//on verifie le stock
+                        {
+                            annuler = true;// on annuler devien true pour sortir de la boucle
+                            Board.Print(bonbon.Name + " VIDE!", selection, returned:somme); // on retourne le change si yen a juste au cas et on affiche comme quoi le bonbon est vide
+                        }
+                        if (bonbon.Stock != 0)// si ya le stock on rentre 
                         {
                             decimal coin;
                             Board.Print(bonbon.Name, selection, price: bonbon.Price, received: somme, result: "", returned: 0.00m);
@@ -50,11 +51,6 @@
                                 Board.Print("Annuler", selection, price: bonbon.Price, received: somme, result: "", returned: somme);//on affiche Annuler dans la machine
                             }
                         }
-                        if (bonbon.Stock == 0)//on verifie le stock
-                        {
-                            annuler = true;// on annuler devien true pour sortir de la boucle
-                            Board.Print(bonbon.Name + " VIDE!", selection, returned:somme); // on retourne le change si yen a juste au cas et on affiche comme quoi le bonbon est vide
-                        }
                     } while (annuler == false && iscompleted == false);// nos false pour rester dans la boucle
                     somme = 0.00m;//remmetre le compteur somme a 0
                 }
@@ -64,8 +60,7 @@
         }
         public static int GetSelection()
         {
-            int selection;
-            string mauvaischoix;
+            int selection; string mauvaischoix;//pour le tryparse
             do
             {
                 Console.Write("->");
@@ -76,7 +71,7 @@
         }
         public static Candy GetCandy(int selection)
         {
-            return candies[selection - 1];// on retourne la selection -1 vu que candies est un tableau
+            return candies[selection - 1];// on retourne la selection -1 vu que candies est un tableau pour pouvoir aller chercher le candy
         }
         public static decimal GetCoin()
         {
@@ -97,7 +92,7 @@
                     case 3: return 0.25m;
                     case 4: return 1.00m;
                     case 5: return 2.00m;
-                    default: return 0.00m;
+                    default: return 0.00m;// on retourne la valeur
                 }
             }
         }
