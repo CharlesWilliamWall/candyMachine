@@ -8,13 +8,13 @@
         {
             Data dataManager = new Data(); //chargement des données
             candies = dataManager.LoadCandies();
-            bool annuler; bool iscompleted; decimal somme = 0; decimal change; // variable bool et decimal
+            bool annuler; bool iscompleted;
+            decimal somme = 0; decimal change;// variable bool et decimal
             while (true)
             {
                 Board.Print();//plus tard dans le board print on va inserer les 2 objets de Candy prix et nom ainsi que des variable comme la selection la somme et le change
                 int selection = GetSelection();//Appel de selectiom
-                {
-                    Candy bonbon = GetCandy(selection);//selection vas choisir le bon candy et lappel
+                Candy bonbon = GetCandy(selection);//selection vas choisir le bon candy et lappel
                     do//babyshark
                     {
                         annuler = false;//on les remet a false en recommencant la boucle
@@ -53,14 +53,14 @@
                         }
                     } while (annuler == false && iscompleted == false);// nos false pour rester dans la boucle
                     somme = 0.00m;//remmetre le compteur somme a 0
-                }
-                Console.WriteLine("\nAppuyez sur une touche pour acheter d'autre bonbon...");//on demande a lutilisateur si il veut recommencer en appuyant sur une touche
+                    Console.WriteLine("\nAppuyez sur une touche pour acheter d'autre bonbon...");//on demande a lutilisateur si il veut recommencer en appuyant sur une touche
                 Console.ReadKey();// on lis
             }
         }
         public static int GetSelection()
         {
-            int selection; string mauvaischoix;//pour le tryparse
+            string mauvaischoix;
+            int selection; //pour le tryparse
             do
             {
                 Console.Write("->");
